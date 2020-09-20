@@ -5,6 +5,12 @@ inputs:
   key: # change this
     required: true
     description: 'key'
+  query:
+    required: true
+    description: read, write or update
+  value:
+    required: false
+    description: required for write or update
 outputs:
   value:
     description: the output
