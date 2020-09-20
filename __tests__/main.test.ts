@@ -23,3 +23,14 @@ test('test runs', () => {
   }
   console.log(cp.execSync(`node ${ip}`, options).toString())
 })
+
+test('test runs 2', () => {
+  process.env['INPUT_KEY'] = 'Greece'
+  process.env['INPUT_QUERY'] = 'write'
+  process.env['INPUT_VALUE'] = 'Athens'
+  const ip = path.join(__dirname, '..', 'lib', 'main.js')
+  const options: cp.ExecSyncOptions = {
+    env: process.env
+  }
+  console.log(cp.execSync(`node ${ip}`, options).toString())
+})

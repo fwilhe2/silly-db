@@ -22,9 +22,16 @@ async function run(): Promise<void> {
     const input = fs.readFileSync('db.json')
     const data = JSON.parse(input.toString())
 
-    core.info(`Value for key ${key}: ${data[key]}`)
+    const query: string = core.getInput('query')
+    const value: string = core.getInput('value')
+    if (query === 'read') {
+      core.info(`Value for key ${key}: ${data[key]}`)
 
-    core.setOutput('value', data[key])
+      core.setOutput('value', data[key])
+    } else if (query === 'write') {
+      data[key] = value
+      fs.writeFileSync('db.json', JSON.stringify(data))
+    }
   } catch (error) {
     core.setFailed(error.message)
   }

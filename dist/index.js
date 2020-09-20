@@ -45,7 +45,7 @@ function run() {
             const key = core.getInput('key');
             core.info(`Query for ${key}`); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
             if (fs.existsSync('db.json')) {
-                core.info("Found existing db");
+                core.info('Found existing db');
             }
             else {
                 const fixture = `{
@@ -57,8 +57,16 @@ function run() {
             }
             const input = fs.readFileSync('db.json');
             const data = JSON.parse(input.toString());
-            core.info(`Value for key ${key}: ${data[key]}`);
-            core.setOutput('value', data[key]);
+            const query = core.getInput('query');
+            const value = core.getInput('value');
+            if (query === 'read') {
+                core.info(`Value for key ${key}: ${data[key]}`);
+                core.setOutput('value', data[key]);
+            }
+            else if (query === 'write') {
+                data[key] = value;
+                fs.writeFileSync('db.json', JSON.stringify(data));
+            }
         }
         catch (error) {
             core.setFailed(error.message);
